@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="52dp"
+    tools:context="com.helios.appui.EventDetail"
+    android:background="@color/commonBack">
+
+    <ImageView
+        android:layout_width="340dp"
+        android:layout_height="200dp"
+        android:id="@+id/eventBanner"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:src="@drawable/event_1"
+        android:scaleType="fitXY"
+        android:layout_gravity="center_vertical" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Event 1"
+        android:id="@+id/eventName"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:textColor="@color/textColor"
+        android:textSize="30sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="eventInfo"
+        android:id="@+id/eventInfo"
+        android:layout_row="2"
+        android:layout_column="0"
+        android:textColor="@color/textColor"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp" />
+
+    <ScrollView
+        android:layout_width="319dp"
+        android:layout_height="220dp"
+        android:id="@+id/scrollView"
+        android:background="@drawable/text_border"
+        android:layout_row="3"
+        android:layout_column="0"
+        android:layout_marginLeft="10dp"
+        android:fillViewport="false">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:padding="10dp"
+            android:text="@string/large_text"
+            android:id="@+id/eventDetails" />
+    </ScrollView>
+</GridLayout>
