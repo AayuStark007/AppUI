@@ -116,7 +116,7 @@ public class Login extends AppCompatActivity {
     public void prepareLogin(View view) {
         String email = usrName.getText().toString().trim();
         String password = pass.getText().toString().trim();
-        
+
         // Check for empty data in the form
         if (!email.isEmpty() && !password.isEmpty()) {
             // login user
