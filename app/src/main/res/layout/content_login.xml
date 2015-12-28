@@ -7,31 +7,44 @@
     tools:context="com.helios.appui.Login"
     android:background="@color/commonBack">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:hint="email"
-        android:id="@+id/nameField"
-        android:layout_row="0"
-        android:layout_column="0"
-        android:width="250dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="20dp"
-        android:textColor="@color/textColor" />
 
-    <EditText
-        android:layout_width="wrap_content"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_email"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="password"
-        android:id="@+id/passField"
+        android:layout_row="0"
+        android:layout_column="0">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:hint="Email"
+            android:id="@+id/nameField"
+            android:width="250dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="20dp"
+            android:textColor="@color/textColor" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_row="1"
-        android:layout_column="0"
-        android:width="250dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="20dp"
-        android:textColor="@color/textColor" />
+        android:layout_column="0">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="Password"
+            android:id="@+id/passField"
+            android:width="250dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="20dp"
+            android:textColor="@color/textColor" />
+    </android.support.design.widget.TextInputLayout>
 
     <Button
         android:layout_width="wrap_content"

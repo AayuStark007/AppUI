@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -33,9 +37,8 @@ public class Register extends AppCompatActivity {
 
     private static final String TAG = Register.class.getSimpleName();
 
-    private EditText regNameField;
-    private EditText emailField;
-    private EditText regPassField;
+    private EditText regNameField, emailField, regPassField;
+    private TextInputLayout regLayoutName, regLayoutEmail, regLayoutPass;
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
@@ -68,6 +71,9 @@ public class Register extends AppCompatActivity {
 
         //Setup data members
         setupDataMembers();
+
+        //setup floating labels
+        setupFloatingLabels();
     }
 
     public void setupDataMembers() {
@@ -100,7 +106,8 @@ public class Register extends AppCompatActivity {
         String password = regPassField.getText().toString().trim();
 
         if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-            registerUser(name, email, password);
+            if(validateAll())
+                registerUser(name, email, password);
         } else {
             Toast.makeText(getApplicationContext(),
                     "Please enter your details!", Toast.LENGTH_LONG)
@@ -203,6 +210,101 @@ public class Register extends AppCompatActivity {
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
+    }
+
+    public void setupFloatingLabels() {
+
+        regLayoutName = (TextInputLayout) findViewById(R.id.reg_layout_name);
+        regLayoutEmail = (TextInputLayout) findViewById(R.id.reg_layout_email);
+        regLayoutPass = (TextInputLayout) findViewById(R.id.reg_layout_password);
+
+        regNameField.addTextChangedListener(new MyTextWatcher(regNameField));
+        emailField.addTextChangedListener(new MyTextWatcher(emailField));
+        regPassField.addTextChangedListener(new MyTextWatcher(regPassField));
+    }
+
+    public boolean validateAll() {
+        if(!validateName() && !validateEmail() && !validatePassword())
+            return false;
+        return true;
+    }
+
+    public boolean validateName() {
+        if (regNameField.getText().toString().trim().isEmpty()) {
+            regLayoutName.setError(getString(R.string.err_msg_name));
+            requestFocus(regNameField);
+            return false;
+        } else {
+            regLayoutName.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+
+    public boolean validateEmail() {
+        String email = emailField.getText().toString().trim();
+
+        if (email.isEmpty() || !isValidEmail(email)) {
+            regLayoutEmail.setError(getString(R.string.err_msg_email));
+            requestFocus(emailField);
+            return false;
+        } else {
+            regLayoutEmail.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    public boolean validatePassword() {
+        if (regPassField.getText().toString().trim().isEmpty()) {
+            regLayoutPass.setError(getString(R.string.err_msg_password));
+            requestFocus(regPassField);
+            return false;
+        } else {
+            regLayoutPass.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+    private static boolean isValidEmail(String email) {
+        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+
+
+    private class MyTextWatcher implements TextWatcher {
+
+        private View view;
+
+        private MyTextWatcher(View view) {
+            this.view = view;
+        }
+
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void afterTextChanged(Editable editable) {
+            switch (view.getId()) {
+                case R.id.regNameField:
+                    validateName();
+                    break;
+                case R.id.regPassField:
+                    validatePassword();
+                    break;
+                case R.id.emailField:
+                    validateEmail();
+                    break;
+            }
+        }
     }
 
 }

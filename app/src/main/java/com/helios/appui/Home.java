@@ -85,7 +85,7 @@ public class Home extends AppCompatActivity {
         db.deleteUsers();
 
         // Launching the login activity
-        Intent intent = new Intent(this, Splash.class);
+        Intent intent = new Intent(this, Login.class);
         startActivity(intent);
         finish();
     }

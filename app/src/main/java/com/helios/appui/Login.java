@@ -6,8 +6,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -34,9 +38,8 @@ public class Login extends AppCompatActivity {
 
     private static final String TAG = Login.class.getSimpleName();
 
-    private Button btnLogin;
-    private EditText usrName;
-    private EditText pass;
+    private EditText usrName, pass;
+    private TextInputLayout inputLayoutEmail, inputLayoutPass;
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
@@ -80,6 +83,9 @@ public class Login extends AppCompatActivity {
 
         setupDataMembers();
 
+        //Setup floating labels
+        setupFloatingLabels();
+
     }
 
     public void openHome(View view)
@@ -119,8 +125,9 @@ public class Login extends AppCompatActivity {
 
         // Check for empty data in the form
         if (!email.isEmpty() && !password.isEmpty()) {
-            // login user
-            checkLogin(email, password);
+            if(validateAll())
+                // login user
+                checkLogin(email, password);
         } else {
             // Prompt user to enter credentials
             Toast.makeText(getApplicationContext(),
@@ -222,6 +229,83 @@ public class Login extends AppCompatActivity {
             pDialog.dismiss();
 
 
+    }
+
+    public void setupFloatingLabels() {
+
+        inputLayoutEmail = (TextInputLayout) findViewById(R.id.input_layout_email);
+        inputLayoutPass = (TextInputLayout) findViewById(R.id.input_layout_password);
+
+        usrName.addTextChangedListener(new MyTextWatcher(usrName));
+        pass.addTextChangedListener(new MyTextWatcher(pass));
+    }
+
+    public boolean validateAll() {
+        if(!validateEmail() && !validatePassword())
+            return false;
+        return true;
+    }
+
+    public boolean validateEmail() {
+        String email = usrName.getText().toString().trim();
+
+        if (email.isEmpty() || !isValidEmail(email)) {
+            inputLayoutEmail.setError(getString(R.string.err_msg_email));
+            requestFocus(usrName);
+            return false;
+        } else {
+            inputLayoutEmail.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    public boolean validatePassword() {
+        if (pass.getText().toString().trim().isEmpty()) {
+            inputLayoutPass.setError(getString(R.string.err_msg_password));
+            requestFocus(pass);
+            return false;
+        } else {
+            inputLayoutPass.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+    private static boolean isValidEmail(String email) {
+        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+
+
+    private class MyTextWatcher implements TextWatcher {
+
+        private View view;
+
+        private MyTextWatcher(View view) {
+            this.view = view;
+        }
+
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void afterTextChanged(Editable editable) {
+            switch(view.getId()) {
+                case R.id.nameField:
+                    validateEmail();
+                    break;
+                case R.id.passField:
+                    validatePassword();
+                    break;
+            }
+        }
     }
 
 
