@@ -16,4 +16,5 @@
 
 The goal of the Apple Watch was to free people from their phones.[15] Kevin Lynch was brought on to make wearable technology for the wrist. He said, “People are carrying their phones with them and looking at the screen so much.” “People want that level of engagement. But how do we provide it in a way that’s a little more human, a little more in the moment when you’re with somebody?”[16] The Apple Watch works by connecting via Bluetooth or Wi-Fi to the phone and then it accesses all of the apps already downloaded to the mobile device. The creation of the Apple Watch was held very much under wraps and was relatively unknown until a Wired article was published, which can be found online.</string>
     <string name="title_activity_register">Register</string>
+    <string name="title_activity_web">WebActivity</string>
 </resources>
